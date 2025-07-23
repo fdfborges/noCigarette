@@ -14,14 +14,23 @@ export const Login = () => {
 
   return (
     <>
-      <GoogleLogin
-        onSuccess={(credentialResponse) => {
-          console.log(credentialResponse)
-          console.log(jwtDecode(credentialResponse.credential));
-          navigate("/TESTE")
-        }}
-        onError={() => console.log("Login Fail")}
-         />
+        <div className="containerAuthGoogle">
+          <GoogleLogin
+            type='standard'
+            size='large'
+            theme='outline'
+            text='continue_with'
+            shape='square'
+            logo_alignment='left'
+            width={""}
+            onSuccess={(credentialResponse) => {
+              console.log(credentialResponse)
+              console.log(jwtDecode(credentialResponse.credential));
+              navigate("/TESTE");
+            }}
+            onError={() => console.log("Login Fail")}
+          />
+        </div>
     </>
   )
 }
