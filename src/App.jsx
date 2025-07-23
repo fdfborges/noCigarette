@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
-import './pages/Login.jsx';
-import { Login } from './pages/Login.jsx';
+import { Login } from './pages/Login/Login.jsx';
+import Sondagem from "./pages/Home/Sondagem.jsx";
 
 function App() {
 
@@ -10,6 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login/>}/>
+        <Route path="/Sondagem" element={<Sondagem/>}/>
       </Routes>
     </BrowserRouter>
   )
