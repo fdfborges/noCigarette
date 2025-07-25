@@ -12,18 +12,31 @@ export const Login = () => {
 
   function handleLogout() {
     googleLogout();
+
   }
 
   return (
     <>
-      <div className="containerLogin_RegisterPrincipal">
-        <div className="ContainerLoginCima">
-          <img src={logonoCigarrete} alt="Logo noCigarette" />
+      <div className="containerLoginRegisterPrincipal">
+        <div className='headerLoginRegister'>
+          <p>noCigarrete</p>
+          <p className='LoginSubtitle'>A no noCigarrete é a aplicação que te fará parar com seu vicio, ter uma vida mais saudável, mais anos de vida. parar com seu vicio, ter uma vida mais saudável, mais anos de vida.</p>
+        </div>
+        <div className='MeioLoginRegister'>
+          <button>Login</button>
+          <button>Sign Up</button>
+        </div>
+        <div className='FooterLoginRegister'>
+          <div className="FooterLineOr">
+            <hr />
+            <span>or</span>
+            <hr />
+          </div>
           <GoogleLogin className="btnGoogle"
             type='standard'
             size='large'
-            theme='outline'
-            text='continue_with'
+            theme='filled_black'
+            text='sign_in_with'
             shape='square'
             logo_alignment='left'
             width={""}
@@ -34,13 +47,7 @@ export const Login = () => {
             }}
             onError={() => console.log("Login Fail")} />
         </div>
-        <div className="ContainerLoginBaixo">
-            <div className="ContainerLoginBaixoDireita">
-              <h2>Diga não ao cigarro</h2>
-              <div className="MsgEntreGoogle"><p>Entre com o Google</p></div>
-              </div>
-            <div className="ContainerLoginBaixoEsquerda"><img src={FelipeAvatar} alt="" /></div>
-        </div>
+
 
       </div>
     </>
