@@ -1,10 +1,10 @@
 import React from 'react'
-import './Login.scss';
+import './Home.scss';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
-export const Login = () => {
+export const Home = () => {
 
   const navigate = useNavigate();
 
