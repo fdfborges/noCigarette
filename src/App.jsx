@@ -3,6 +3,7 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 import { Home } from "./pages/Home/Home.jsx";
 import Sondagem from "./pages/Sondagem/Sondagem.jsx";
+import Login from "./pages/Login/Login.jsx";
 
 function App() {
 
@@ -10,7 +11,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/Sondagem" element={<Sondagem/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/sondagem" element={<Sondagem/>}/>
       </Routes>
     </BrowserRouter>
   )
