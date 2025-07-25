@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-
 import { Home } from "./pages/Home/Home.jsx";
 import Sondagem from "./pages/Sondagem/Sondagem.jsx";
 import Login from "./pages/Login/Login.jsx";

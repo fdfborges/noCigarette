@@ -16,6 +16,7 @@ export default function Login() {
             </div>
             <div className="containerMeioLogin">
                 <FormLogin />
+                <span>Não possui uma conta? <a href="#"><strong>Clique Aqui</strong></a></span>
             </div>
             <div className="containerFooterLogin">
                 <div className="FooterLineOr">

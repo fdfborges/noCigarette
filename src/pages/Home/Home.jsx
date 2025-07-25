@@ -3,6 +3,8 @@ import './Home.scss';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from '../Login/Login';
 
 export const Home = () => {
 
@@ -13,6 +15,13 @@ export const Home = () => {
 
   }
 
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+  const handleHomeClick = () => {
+    navigate('/Home');
+  };
+
   return (
     <>
       <div className="containerLoginRegisterPrincipal">
@@ -21,8 +30,8 @@ export const Home = () => {
           <p className='LoginSubtitle'>A no noCigarrete é a aplicação que te fará parar com seu vicio, ter uma vida mais saudável, mais anos de vida. parar com seu vicio, ter uma vida mais saudável, mais anos de vida.</p>
         </div>
         <div className='MeioLoginRegister'>
-          <button>Login</button>
-          <button>Sign Up</button>
+          <button onClick={handleLoginClick}>Login</button>
+          <button onClick={handleHomeClick}>Sign Up</button>
         </div>
         <div className='FooterLoginRegister'>
           <div className="FooterLineOr">
