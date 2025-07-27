@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from '../Login/Login';
+import Logo from '../../components/logo/Logo.jsx';
 
 export const Home = () => {
 
@@ -26,7 +27,7 @@ export const Home = () => {
     <>
       <div className="containerLoginRegisterPrincipal">
         <div className='headerLoginRegister'>
-          <p>noCigarrete</p>
+          <Logo />
           <p className='LoginSubtitle'>A no noCigarrete é a aplicação que te fará parar com seu vicio, ter uma vida mais saudável, mais anos de vida. parar com seu vicio, ter uma vida mais saudável, mais anos de vida.</p>
         </div>
         <div className='MeioLoginRegister'>
