@@ -5,10 +5,16 @@ import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import FormRegister from '../../components/FormRegister/FormRegister';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Register() {
 
+
+    const navigate = useNavigate();
+    const handleLoginClick = () => {
+        navigate('/login');
+    };
 
 
     return (
@@ -18,15 +24,6 @@ export default function Register() {
                 <p className='LoginSubtitle'>A no noCigarrete é a aplicação que te fará parar com seu vicio, ter uma vida mais saudável, mais anos de vida. parar com seu vicio, ter uma vida mais saudável, mais anos de vida.</p>
             </div>
             <div className="containerMeioLogin">
-                <FormRegister />
-                <span>Não possui uma conta? <a href="#"><strong>Clique Aqui</strong></a></span>
-            </div>
-            <div className="containerFooterLogin">
-                <div className="FooterLineOr">
-                    <hr />
-                    <span>or</span>
-                    <hr />
-                </div>
                 <GoogleLogin className="btnGoogle"
                     type='standard'
                     size='large'
@@ -41,6 +38,10 @@ export default function Register() {
                         navigate("/Sondagem");
                     }}
                     onError={() => console.log("Login Fail")} />
+                <FormRegister />
+                <span>Já possui uma conta? <a onClick={handleLoginClick}><strong>Clique Aqui</strong></a></span>
+            </div>
+            <div className="containerFooterLogin">
             </div>
         </div>
     )

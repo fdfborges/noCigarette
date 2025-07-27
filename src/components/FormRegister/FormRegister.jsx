@@ -96,7 +96,7 @@ export default function FormLogin() {
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
                     <div className="containerLabel">
-                        <label htmlFor="email">Sobrenome:</label>
+                        <label htmlFor="email">E-mail:</label>
                     </div>
                     <div className="ContainerInputPlusIcon">
                         <div className="IconForInput">
@@ -121,7 +121,7 @@ export default function FormLogin() {
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
                     <div className="containerLabel">
-                        <label htmlFor="age">Idade:</label>
+                        <label htmlFor="age">Data de Nascimento:</label>
                     </div>
                     <div className="ContainerInputPlusIcon">
                         <DayPicker
