@@ -6,7 +6,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import FormRegister from '../../components/FormRegister/FormRegister';
 
+
 export default function Register() {
+
+
 
     return (
         <div className="containerLoginPrincipal">

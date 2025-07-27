@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import './FormRegister.scss';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { CiMail } from "react-icons/ci";
 import { FaLock, FaRegEyeSlash } from "react-icons/fa";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { format } from 'date-fns';
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
+
 
 
 export default function FormLogin() {
@@ -31,10 +33,7 @@ export default function FormLogin() {
         },
     });
 
-    const Example = () => {
-        const [startDate, setStartDate] = useState(new Date());
-        return <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />;
-    };
+    const [selected, setSelected] = useState ();
 
     return (
         <form className='FormLoginContainer' onSubmit={formik.handleSubmit}>
@@ -125,15 +124,13 @@ export default function FormLogin() {
                         <label htmlFor="age">Idade:</label>
                     </div>
                     <div className="ContainerInputPlusIcon">
-                        <div className="IconForInput">
-                            <CiMail size={"1.6rem"} />
-                        </div>
-                        <DatePicker
-                            calendarClassName="Calendar"
-                            selected={"01/01/0001"}
-                            onSelect={"handleDateSelect"} //when day is clicked
-                            onChange={"handleDateChange"} //only when value has changed
-                            locale={"pt-br"}
+                        <DayPicker
+                            animate
+                            mode="single"
+                            selected={selected}
+                            onSelect={setSelected}
+                            captionLayout={"dropdown"}
+                            navLayout={"after"}
                         />
                     </div>
                 </div>

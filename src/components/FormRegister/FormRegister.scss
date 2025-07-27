@@ -93,17 +93,43 @@
         .FooterFormEsquerda {
             display: flex;
             gap: 0.6rem;
+
             label {
                 font-weight: 100;
             }
         }
 
-        .FooterFormDireita{
-            a{
+        .FooterFormDireita {
+            a {
                 font-weight: 600;
             }
         }
 
     }
 
+}
+
+
+
+.rdp-months,
+.rdp-month,
+.rdp-table,
+.rdp-head,
+.rdp-tbody,
+.rdp-row,
+.rdp-cell,
+.rdp-day_button,
+.rdp-day,
+.rdp-button_previous,
+.rdp-button_next {
+    background-color: white !important;
+    padding: 0.5rem;
+    border-radius: 10px;
+
+}
+
+.rdp-day_button,
+.rdp-nav_button,
+.rdp-caption_label {
+    color: #111 !important;
 }
