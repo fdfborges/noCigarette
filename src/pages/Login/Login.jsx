@@ -3,10 +3,16 @@ import './Login.scss';
 import Logo from '../../components/logo/Logo';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import FormLogin from '../../components/FormLogin/FormLogin';
 
 export default function Login() {
+
+    const navigate = useNavigate();
+    const handleRegisterClick = () => {
+        navigate('/register');
+    };
 
     return (
         <div className="containerLoginPrincipal">
@@ -16,7 +22,7 @@ export default function Login() {
             </div>
             <div className="containerMeioLogin">
                 <FormLogin />
-                <span>Não possui uma conta? <a href="#"><strong>Clique Aqui</strong></a></span>
+                <span>Não possui uma conta? <a onClick={handleRegisterClick}><strong>Clique Aqui</strong></a></span>
             </div>
             <div className="containerFooterLogin">
                 <div className="FooterLineOr">
