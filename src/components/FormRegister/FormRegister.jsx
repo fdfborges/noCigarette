@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React from "react"; // O hook 'useState' foi removido pois não é mais necessário
 import './FormRegister.scss';
 import { CiMail } from "react-icons/ci";
-import { FaLock, FaRegEyeSlash, FaUser, FaPhone } from "react-icons/fa"; // Adicionei ícones
+import { FaLock, FaRegEyeSlash, FaUser, FaPhone } from "react-icons/fa";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/style.css";
+// O DayPicker foi removido
 import { useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../services/firebaseConfig.js';
-import { doc, setDoc, Timestamp } from 'firebase/firestore'; // Importe Timestamp
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
 
-// 1. Componente renomeado para maior clareza
 export default function FormRegister() {
     const navigate = useNavigate();
 
@@ -22,13 +20,12 @@ export default function FormRegister() {
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
 
-    const [selectedDate, setSelectedDate] = useState(null);
+    // O 'useState' para 'selectedDate' foi removido daqui.
 
     const formik = useFormik({
         initialValues: {
             nome: '',
             surname: '',
-            // Renomeei para dataNascimento para ficar mais claro
             dataNascimento: '',
             email: '',
             cellphone: '',
@@ -38,7 +35,21 @@ export default function FormRegister() {
         validationSchema: Yup.object({
             nome: Yup.string().required('Nome é obrigatório'),
             surname: Yup.string().required('Sobrenome é obrigatório'),
-            dataNascimento: Yup.string().required('Data de Nascimento é obrigatória'),
+            // VALIDAÇÃO DE IDADE ATIVADA E AJUSTADA
+            dataNascimento: Yup.string()
+                .required('Data de Nascimento é obrigatória')
+                .test(
+                    'is-over-18',
+                    'Você precisa ter pelo menos 18 anos.',
+                    function (value) {
+                        if (!value) return true; // Deixa o 'required' cuidar disso
+                        const birthDate = new Date(value);
+                        const cutoffDate = new Date();
+                        cutoffDate.setFullYear(cutoffDate.getFullYear() - 18);
+                        cutoffDate.setDate(cutoffDate.getDate() + 1);
+                        return birthDate <= cutoffDate;
+                    }
+                ),
             email: Yup.string().email('Endereço de e-mail inválido').required('E-mail é obrigatório'),
             cellphone: Yup.string().required('Celular é obrigatório'),
             password: Yup.string()
@@ -48,49 +59,50 @@ export default function FormRegister() {
                 .oneOf([Yup.ref('password'), null], 'As senhas devem ser iguais')
                 .required('Confirmação de senha é obrigatória'),
         }),
-        // 2. Lógica principal implementada aqui
         onSubmit: async (values) => {
             try {
-                // ETAPA 1: Criar o usuário na Autenticação do Firebase
                 const userCredential = await createUserWithEmailAndPassword(values.email, values.password);
 
                 if (userCredential) {
                     const createdUser = userCredential.user;
                     console.log("✅ Usuário criado na Autenticação:", createdUser.uid);
 
-                    // ETAPA 2: Salvar os dados adicionais no Firestore
                     const userData = {
                         nome: values.nome,
                         sobrenome: values.surname,
                         email: values.email,
                         telefone: values.cellphone,
-                        // Salva a data como um objeto Timestamp do Firebase, que é o ideal
-                        dataNascimento: Timestamp.fromDate(selectedDate),
+                        // CORRIGIDO: Usa o valor do formulário 'values'
+                        dataNascimento: Timestamp.fromDate(new Date(values.dataNascimento)),
                     };
 
-                    // Cria um documento na coleção 'users' com o UID do usuário como ID
                     await setDoc(doc(db, "users", createdUser.uid), userData);
 
                     console.log("✅ Dados adicionais salvos no Firestore!");
                     navigate('/sondagem');
-                    setSelectedDate(null);
                 }
             } catch (e) {
-                // O hook 'error' já será preenchido, mas podemos logar para debug
                 console.error("❌ Erro no processo de registro:", e);
-                // Você pode mostrar um alerta ou usar o estado 'error' para exibir na UI
                 alert(`Ocorreu um erro: ${e.message}`);
             }
         },
     });
 
-    // A UI pode continuar reagindo aos estados do hook (loading, user, error)
     if (loading) {
         return <p>Registrando, por favor aguarde...</p>;
     }
 
+    // Lógica para calcular a data máxima permitida (18 anos atrás)
+    const today = new Date();
+    const eighteenYearsAgo = new Date(
+        today.getFullYear() - 18,
+        today.getMonth(),
+        today.getDate()
+    );
+    // Formata a data para o formato YYYY-MM-DD, que o atributo 'max' do input precisa
+    const maxDate = eighteenYearsAgo.toISOString().split('T')[0];
+
     return (
-        // O onSubmit do form já está corretamente ligado ao formik.handleSubmit
         <form className='FormLoginContainer' onSubmit={formik.handleSubmit}>
             {/* Campo Nome */}
             <div className='ContainerInputELabel'>
@@ -141,22 +153,22 @@ export default function FormRegister() {
                             onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.cellphone} />
                     </div>
                 </div>
-                {/* 3. BUG CORRIGIDO: apontava para formik.errors.email */}
                 {formik.touched.cellphone && formik.errors.cellphone ? (<div className="error-message">{formik.errors.cellphone}</div>) : null}
             </div>
 
             {/* Campo Data de Nascimento */}
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
-                    <div className="containerLabel"><label>Data de Nascimento:</label></div>
+                    <div className="containerLabel"><label htmlFor="dataNascimento">Data de Nascimento:</label></div>
                     <div className="ContainerInputPlusIcon date-picker-container">
-                        <DayPicker mode="single" selected={selectedDate}
-                            onSelect={(date) => {
-                                setSelectedDate(date);
-                                // Agora atualiza o campo dataNascimento
-                                formik.setFieldValue('dataNascimento', date ? date.toLocaleDateString('pt-BR') : '');
-                            }}
-                            captionLayout="dropdown-buttons" fromYear={1920} toYear={2024}
+                        <input
+                            id="dataNascimento"
+                            name="dataNascimento"
+                            type="date"
+                            max={maxDate} // Atributo 'max' para restringir o calendário
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.dataNascimento}
                         />
                     </div>
                 </div>
