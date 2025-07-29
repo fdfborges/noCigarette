@@ -19,8 +19,8 @@ export const Home = () => {
   const handleLoginClick = () => {
     navigate('/login');
   };
-  const handleHomeClick = () => {
-    navigate('/Home');
+  const handleRegisterClick = () => {
+    navigate('/register');
   };
 
   return (
@@ -32,7 +32,7 @@ export const Home = () => {
         </div>
         <div className='MeioLoginRegister'>
           <button onClick={handleLoginClick}>Login</button>
-          <button onClick={handleHomeClick}>Sign Up</button>
+          <button onClick={handleRegisterClick}>Sign Up</button>
         </div>
         <div className='FooterLoginRegister'>
           <div className="FooterLineOr">

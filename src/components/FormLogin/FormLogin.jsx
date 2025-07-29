@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './FormLogin.scss';
 import { CiMail } from "react-icons/ci";
 import { FaLock, FaRegEyeSlash } from "react-icons/fa";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth } from '../../services/firebaseConfig.js';
 
 export default function FormLogin() {
+
+
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -26,6 +30,7 @@ export default function FormLogin() {
         },
     });
 
+
     return (
         <form className='FormLoginContainer' onSubmit={formik.handleSubmit}>
             <div className='ContainerInputELabel'>
@@ -44,9 +49,10 @@ export default function FormLogin() {
                             name="email"
                             type="email"
                             placeholder='seuemail@email.com'
-                            onChange={formik.handleChange}
+                            // onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.email}
+                            
                         />
                     </div>
 
@@ -70,9 +76,9 @@ export default function FormLogin() {
                             name="password"
                             type="password"
                             placeholder='*********'
-                            onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <div className="IconForInput">
                             <FaRegEyeSlash size={"1.3rem"} />
@@ -92,7 +98,7 @@ export default function FormLogin() {
                     <a>Esqueceu a senha ?</a>
                 </div>
             </div>
-            <button type="submit">Entrar</button>
+            <button  type="submit">Entrar</button>
         </form>
     )
 }
