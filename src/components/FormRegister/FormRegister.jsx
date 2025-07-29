@@ -6,12 +6,15 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
+import { useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../services/firebaseConfig.js';
 import { doc, setDoc, Timestamp } from 'firebase/firestore'; // Importe Timestamp
 
 // 1. Componente renomeado para maior clareza
 export default function FormRegister() {
+    const navigate = useNavigate();
+
     const [
         createUserWithEmailAndPassword,
         user,
@@ -69,10 +72,8 @@ export default function FormRegister() {
                     await setDoc(doc(db, "users", createdUser.uid), userData);
 
                     console.log("✅ Dados adicionais salvos no Firestore!");
-                    alert("Cadastro realizado com sucesso!");
-                    // Opcional: Redirecionar o usuário ou limpar o formulário
-                    // formik.resetForm();
-                    // setSelectedDate(null);
+                    navigate('/sondagem');
+                    setSelectedDate(null);
                 }
             } catch (e) {
                 // O hook 'error' já será preenchido, mas podemos logar para debug
@@ -106,7 +107,7 @@ export default function FormRegister() {
 
             {/* Campo Sobrenome */}
             <div className='ContainerInputELabel'>
-                 <div className="ContainerInputLabel">
+                <div className="ContainerInputLabel">
                     <div className="containerLabel"><label htmlFor="surname">Sobrenome:</label></div>
                     <div className="ContainerInputPlusIcon">
                         <div className="IconForInput"><FaUser size={"1.3rem"} /></div>
@@ -118,13 +119,13 @@ export default function FormRegister() {
             </div>
 
             {/* Campo E-mail */}
-             <div className='ContainerInputELabel'>
+            <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
                     <div className="containerLabel"><label htmlFor="email">E-mail:</label></div>
                     <div className="ContainerInputPlusIcon">
                         <div className="IconForInput"><CiMail size={"1.6rem"} /></div>
                         <input id="email" name="email" type="email" placeholder='seuemail@email.com'
-                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email}/>
+                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
                     </div>
                 </div>
                 {formik.touched.email && formik.errors.email ? (<div className="error-message">{formik.errors.email}</div>) : null}
@@ -137,13 +138,13 @@ export default function FormRegister() {
                     <div className="ContainerInputPlusIcon">
                         <div className="IconForInput"><FaPhone size={"1.3rem"} /></div>
                         <input id="cellphone" name="cellphone" type="tel" placeholder='(xx) xxxxx-xxxx'
-                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.cellphone}/>
+                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.cellphone} />
                     </div>
                 </div>
                 {/* 3. BUG CORRIGIDO: apontava para formik.errors.email */}
                 {formik.touched.cellphone && formik.errors.cellphone ? (<div className="error-message">{formik.errors.cellphone}</div>) : null}
             </div>
-            
+
             {/* Campo Data de Nascimento */}
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
@@ -162,14 +163,14 @@ export default function FormRegister() {
                 {formik.touched.dataNascimento && formik.errors.dataNascimento ? (<div className="error-message">{formik.errors.dataNascimento}</div>) : null}
             </div>
 
-             {/* Campo Senha */}
+            {/* Campo Senha */}
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
                     <div className="containerLabel"><label htmlFor="password">Senha:</label></div>
                     <div className="ContainerInputPlusIcon">
                         <div className="IconForInput"><FaLock size={"1.3rem"} /></div>
                         <input id="password" name="password" type="password" placeholder='*******'
-                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password}/>
+                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
                         <div className="IconForInput"><FaRegEyeSlash size={"1.3rem"} /></div>
                     </div>
                 </div>
@@ -183,7 +184,7 @@ export default function FormRegister() {
                     <div className="ContainerInputPlusIcon">
                         <div className="IconForInput"><FaLock size={"1.3rem"} /></div>
                         <input id="confirmPassword" name="confirmPassword" type="password" placeholder='*******'
-                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.confirmPassword}/>
+                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.confirmPassword} />
                         <div className="IconForInput"><FaRegEyeSlash size={"1.3rem"} /></div>
                     </div>
                 </div>
@@ -194,7 +195,7 @@ export default function FormRegister() {
             <button type="submit" disabled={loading}>
                 {loading ? 'Registrando...' : 'Registrar'}
             </button>
-            
+
             {/* Exibe o erro geral do hook, se houver */}
             {error && <div className="error-message general-error">Erro: {error.message}</div>}
         </form>
