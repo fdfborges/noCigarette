@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '../../services/firebaseConfig.js';
+import PasswordInput from '../PasswordInput/PasswordInput.jsx';
 
 export default function FormLogin() {
 
@@ -30,6 +31,13 @@ export default function FormLogin() {
         },
     });
 
+    // **ESTADO DE VISIBILIDADE DA SENHA PARA O INPUT E O BOTÃO**
+    const [showPassword, setShowPassword] = useState(false);
+
+    // **FUNÇÃO PARA ALTERNAR A VISIBILIDADE**
+    const togglePasswordVisibility = () => {
+        setShowPassword(prevShowPassword => !prevShowPassword);
+    };
 
     return (
         <form className='FormLoginContainer' onSubmit={formik.handleSubmit}>
@@ -49,10 +57,10 @@ export default function FormLogin() {
                             name="email"
                             type="email"
                             placeholder='seuemail@email.com'
-                            // onChange={formik.handleChange}
+                            onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.email}
-                            
+
                         />
                     </div>
 
@@ -74,15 +82,15 @@ export default function FormLogin() {
                         <input
                             id="password"
                             name="password"
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             placeholder='*********'
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={formik.handleChange}
                         />
-                        <div className="IconForInput">
-                            <FaRegEyeSlash size={"1.3rem"} />
-                        </div>
+                        <PasswordInput
+                            isPasswordVisible={showPassword}
+                            onToggle={togglePasswordVisibility} />
                     </div>
                 </div>
                 {formik.touched.password && formik.errors.password ? (
@@ -98,7 +106,7 @@ export default function FormLogin() {
                     <a>Esqueceu a senha ?</a>
                 </div>
             </div>
-            <button  type="submit">Entrar</button>
+            <button type="submit">Entrar</button>
         </form>
     )
 }

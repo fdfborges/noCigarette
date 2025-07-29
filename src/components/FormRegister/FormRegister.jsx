@@ -1,17 +1,27 @@
-import React from "react"; // O hook 'useState' foi removido pois não é mais necessário
+import React, { useState } from "react"; // <-- MANTENHA O useState AQUI!
 import './FormRegister.scss';
 import { CiMail } from "react-icons/ci";
-import { FaLock, FaRegEyeSlash, FaUser, FaPhone } from "react-icons/fa";
+import { FaLock, FaUser, FaPhone } from "react-icons/fa";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-// O DayPicker foi removido
 import { useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../services/firebaseConfig.js';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
 
+// IMPORTE SEU COMPONENTE DO BOTÃO AQUI
+import PasswordInput from '../PasswordInput/PasswordInput'; // Ajuste o caminho conforme sua estrutura de pastas
+
 export default function FormRegister() {
     const navigate = useNavigate();
+
+    // **ESTADO DE VISIBILIDADE DA SENHA PARA O INPUT E O BOTÃO**
+    const [showPassword, setShowPassword] = useState(false);
+
+    // **FUNÇÃO PARA ALTERNAR A VISIBILIDADE**
+    const togglePasswordVisibility = () => {
+        setShowPassword(prevShowPassword => !prevShowPassword);
+    };
 
     const [
         createUserWithEmailAndPassword,
@@ -19,8 +29,6 @@ export default function FormRegister() {
         loading,
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
-
-    // O 'useState' para 'selectedDate' foi removido daqui.
 
     const formik = useFormik({
         initialValues: {
@@ -35,14 +43,13 @@ export default function FormRegister() {
         validationSchema: Yup.object({
             nome: Yup.string().required('Nome é obrigatório'),
             surname: Yup.string().required('Sobrenome é obrigatório'),
-            // VALIDAÇÃO DE IDADE ATIVADA E AJUSTADA
             dataNascimento: Yup.string()
                 .required('Data de Nascimento é obrigatória')
                 .test(
                     'is-over-18',
                     'Você precisa ter pelo menos 18 anos.',
                     function (value) {
-                        if (!value) return true; // Deixa o 'required' cuidar disso
+                        if (!value) return true;
                         const birthDate = new Date(value);
                         const cutoffDate = new Date();
                         cutoffDate.setFullYear(cutoffDate.getFullYear() - 18);
@@ -72,7 +79,6 @@ export default function FormRegister() {
                         sobrenome: values.surname,
                         email: values.email,
                         telefone: values.cellphone,
-                        // CORRIGIDO: Usa o valor do formulário 'values'
                         dataNascimento: Timestamp.fromDate(new Date(values.dataNascimento)),
                     };
 
@@ -92,18 +98,18 @@ export default function FormRegister() {
         return <p>Registrando, por favor aguarde...</p>;
     }
 
-    // Lógica para calcular a data máxima permitida (18 anos atrás)
     const today = new Date();
     const eighteenYearsAgo = new Date(
         today.getFullYear() - 18,
         today.getMonth(),
         today.getDate()
     );
-    // Formata a data para o formato YYYY-MM-DD, que o atributo 'max' do input precisa
     const maxDate = eighteenYearsAgo.toISOString().split('T')[0];
 
     return (
         <form className='FormLoginContainer' onSubmit={formik.handleSubmit}>
+            {/* ... Seus outros campos (nome, sobrenome, email, telefone, dataNascimento) ... */}
+
             {/* Campo Nome */}
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
@@ -165,7 +171,7 @@ export default function FormRegister() {
                             id="dataNascimento"
                             name="dataNascimento"
                             type="date"
-                            max={maxDate} // Atributo 'max' para restringir o calendário
+                            max={maxDate}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.dataNascimento}
@@ -175,29 +181,48 @@ export default function FormRegister() {
                 {formik.touched.dataNascimento && formik.errors.dataNascimento ? (<div className="error-message">{formik.errors.dataNascimento}</div>) : null}
             </div>
 
-            {/* Campo Senha */}
+            {/* CAMPO SENHA - ONDE A MÁGICA ACONTECE */}
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
                     <div className="containerLabel"><label htmlFor="password">Senha:</label></div>
-                    <div className="ContainerInputPlusIcon">
+                    <div className="ContainerInputPlusIcon"> {/* Certifique-se que este div tem position: relative; no CSS */}
                         <div className="IconForInput"><FaLock size={"1.3rem"} /></div>
-                        <input id="password" name="password" type="password" placeholder='*******'
-                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
-                        <div className="IconForInput"><FaRegEyeSlash size={"1.3rem"} /></div>
+                        <input
+                            id="password"
+                            name="password"
+                            // **AQUI O TIPO É CONTROLADO PELO ESTADO DO FormRegister**
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder='*******'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.password}
+                        />
+                        <PasswordInput
+                            isPasswordVisible={showPassword}
+                            onToggle={togglePasswordVisibility}
+                        />
                     </div>
                 </div>
                 {formik.touched.password && formik.errors.password ? (<div className="error-message">{formik.errors.password}</div>) : null}
             </div>
 
-            {/* Campo Confirmar Senha */}
+            {/* CAMPO CONFIRMAR SENHA - Repita a mesma lógica se quiser o toggle aqui também */}
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
                     <div className="containerLabel"><label htmlFor="confirmPassword">Confirmar Senha:</label></div>
                     <div className="ContainerInputPlusIcon">
                         <div className="IconForInput"><FaLock size={"1.3rem"} /></div>
-                        <input id="confirmPassword" name="confirmPassword" type="password" placeholder='*******'
-                            onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.confirmPassword} />
-                        <div className="IconForInput"><FaRegEyeSlash size={"1.3rem"} /></div>
+                        <input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            // Você pode usar o mesmo 'showPassword' ou criar um novo estado para 'confirmPassword'
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder='*******'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.confirmPassword}
+                        />
+                        {/* USE O MESMO COMPONENTE DO BOTÃO AQUI */}
                     </div>
                 </div>
                 {formik.touched.confirmPassword && formik.errors.confirmPassword ? (<div className="error-message">{formik.errors.confirmPassword}</div>) : null}
@@ -208,7 +233,6 @@ export default function FormRegister() {
                 {loading ? 'Registrando...' : 'Registrar'}
             </button>
 
-            {/* Exibe o erro geral do hook, se houver */}
             {error && <div className="error-message general-error">Erro: {error.message}</div>}
         </form>
     );
