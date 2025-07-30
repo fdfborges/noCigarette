@@ -8,6 +8,7 @@ import Quest2 from './Quest2';
 import Quest3 from './Quest3';
 import Quest4 from './Quest4';
 import useForm from '../../hooks/useForm';
+import BtnControlStep from './BtnControlStep';
 
 function FormStep() {
 
@@ -18,21 +19,49 @@ function FormStep() {
   return (
     <div className="FormStep">
       <div className="containerFormStepBackground">
-        <div className="headerFormStep">
-          <h2>Pergunta: 1/5</h2>
-        </div>
         <div className="form-container">
-          <form action="" onSubmit={(e) => changeStep(currentSetp + 1, e)}>
+          <form onSubmit={(e) => e.preventDefault()}>
             <div className="inputs-container">{currentComponent}</div>
             <div className="actions">
-              {!isFirstStep && (
-                <button className='btnBack' type='button' onClick={() => changeStep(currentSetp - 1)}>
-                  <GrFormPrevious />
-                  Voltar
-                </button>
+
+              {isFirstStep ? (
+                // ✅ CASO 1: Apenas o primeiro passo
+                <BtnControlStep
+                  classBtn={"btnNext"}
+                  BtnText={"VAMOS LÁ!"}
+                  onClickFunction={(e) => changeStep(currentSetp + 1)}
+                />
+              ) : isLastStep ? (
+                // ✅ CASO 3: Apenas o último passo
+                <>
+                  <BtnControlStep
+                    classBtn={"btnBack"}
+                    BtnText={"VOLTAR"}
+                    onClickFunction={(e) => changeStep(currentSetp - 1)}
+                  />
+                  <BtnControlStep
+                    classBtn={"btnNext"}
+                    BtnText={"FINALIZAR"}
+                    onClickFunction={""}
+                  />
+                </>
+              ) : (
+                // ✅ CASO 2: Apenas os passos do meio
+                <>
+                  <BtnControlStep
+                    classBtn={"btnBack"}
+                    BtnText={"VOLTAR"}
+                    onClickFunction={(e) => changeStep(currentSetp - 1)}
+                  />
+                  <BtnControlStep
+                    classBtn={"btnNext"}
+                    BtnText={"PRÓXIMO"}
+                    onClickFunction={(e) => changeStep(currentSetp + 1)}
+                  />
+                </>
               )}
 
-              {!isLastStep ? (
+              {/*  ? (
                 <button className='btnNext' type='submit'>Iniciar
                   <GrFormNext />
                 </button>
@@ -41,12 +70,12 @@ function FormStep() {
                   Enviar
                   <FiSend />
                 </button>
-              )}
+              )} */}
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 

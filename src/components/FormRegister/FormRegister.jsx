@@ -74,12 +74,18 @@ export default function FormRegister() {
                     const createdUser = userCredential.user;
                     console.log("✅ Usuário criado na Autenticação:", createdUser.uid);
 
+                    // 2. Monta o objeto com TODOS os dados iniciais
                     const userData = {
                         nome: values.nome,
                         sobrenome: values.surname,
                         email: values.email,
                         telefone: values.cellphone,
                         dataNascimento: Timestamp.fromDate(new Date(values.dataNascimento)),
+                        dataCadastro: Timestamp.now(),
+                        ultimoCigarroTimestamp: null,
+                        recordeSemFumarMs: 0,
+                        precoMaco: 0,
+                        cigarrosPorMaco: 0
                     };
 
                     await setDoc(doc(db, "users", createdUser.uid), userData);
