@@ -98,36 +98,29 @@
     }
 }
 
-.containerPrincipalQuest1 {
+.containerPrincipalQuest1,
+.containerPrincipalQuest2,
+.containerPrincipalQuest3 {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
-    margin: 2rem 0;
-    
+    gap: 5rem;
+    margin: 4rem 0;
+    text-align: initial;
+
 }
 
-.ContainerQuest2 {
-
-    .Alternatives {
-        display: flex;
-        flex-direction: column;
+.containerPrincipalQuest3 {
+    input {
         width: 100%;
-        align-items: center;
-        gap: 1rem;
+        height: 100%;
+        border: none;
+        background-color: transparent;
+        text-align: center;
+        font-size: 3rem;
 
-        button {
-            width: 90%;
-            height: 4rem;
-            font-size: 1.4rem;
-            border-radius: 6px;
-            border: 2px solid purple;
-            background-color: white;
-
-            &:active {
-                background-color: rgba(128, 0, 128, 0.353);
-            }
-        }
     }
+
+
 }
