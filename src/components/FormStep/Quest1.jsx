@@ -1,11 +1,12 @@
 import React from 'react'
 import './FormStep.scss';
+import ButtonPlusMinus from '../ButtonPlusMinus/ButtonPlusMinus';
 
 export default function Quest1() {
   return (
-    <div className='containerQuest1'>
-        <h2>1. Há quantos anos você fuma?</h2>
-        <input className='InputQuest1_number' type="number" placeholder='2'/>
+    <div className='containerPrincipalQuest1'>
+        <h1>Em média, quantos cigarros você fuma por dia?</h1>
+        <ButtonPlusMinus />
     </div>
   )
 }

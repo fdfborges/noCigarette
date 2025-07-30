@@ -98,28 +98,14 @@
     }
 }
 
-.containerQuest1 {
+.containerPrincipalQuest1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0 0 4rem 0rem;
     gap: 2rem;
-
-    h2 {
-        font-size: 2rem;
-    }
-
-    .InputQuest1_number {
-        width: 8rem;
-        height: 8rem;
-        display: flex;
-        text-align: center;
-
-        font-size: 3rem;
-
-        border-radius: 6px;
-    }
+    margin: 2rem 0;
+    
 }
 
 .ContainerQuest2 {
