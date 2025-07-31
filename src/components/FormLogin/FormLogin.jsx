@@ -1,16 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import './FormLogin.scss';
 import { CiMail } from "react-icons/ci";
-import { FaLock, FaRegEyeSlash } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '../../services/firebaseConfig.js';
 import PasswordInput from '../PasswordInput/PasswordInput.jsx';
 
 export default function FormLogin() {
+    const navigate = useNavigate();
 
-
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => {
+        setShowPassword(prevShowPassword => !prevShowPassword);
+    };
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
 
     const formik = useFormik({
         initialValues: {
@@ -20,37 +31,40 @@ export default function FormLogin() {
         validationSchema: Yup.object({
             email: Yup.string()
                 .email('Endereço de e-mail inválido')
-                .required('Campo Obrigatório'),
+                .required('E-mail é obrigatório'),
             password: Yup.string()
                 .min(6, 'A senha deve ter no mínimo 6 caracteres')
-                .required('Obrigatório'),
+                .required('Senha é obrigatória'),
         }),
-        onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
-            // Aqui você faria a lógica de autenticação, como enviar para uma API
+        onSubmit: async (values) => {
+            try {
+                const userCredential = await signInWithEmailAndPassword(values.email, values.password);
+                if (userCredential) {
+                    // console.log("✅ Login bem-sucedido:", userCredential.user.uid);
+                    navigate('/sondagem');
+                }
+            } catch (e) {
+                // console.error("❌ Erro no login:", e);
+            }
         },
     });
 
-    // **ESTADO DE VISIBILIDADE DA SENHA PARA O INPUT E O BOTÃO**
-    const [showPassword, setShowPassword] = useState(false);
+    if (user) {
 
-    // **FUNÇÃO PARA ALTERNAR A VISIBILIDADE**
-    const togglePasswordVisibility = () => {
-        setShowPassword(prevShowPassword => !prevShowPassword);
-    };
+    }
+
+
 
     return (
         <form className='FormLoginContainer' onSubmit={formik.handleSubmit}>
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
-                    <div className="ContainerInputLabel"></div>
-
                     <div className="containerLabel">
                         <label htmlFor="email">E-mail</label>
                     </div>
                     <div className="ContainerInputPlusIcon">
                         <div className="IconForInput">
-                            <FaLock size={"1.3rem"} />
+                            <CiMail size={"1.6rem"} />
                         </div>
                         <input
                             id="email"
@@ -60,16 +74,13 @@ export default function FormLogin() {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.email}
-
                         />
                     </div>
-
                 </div>
                 {formik.touched.email && formik.errors.email ? (
-                    <div>{formik.errors.email}</div>
+                    <div className="error-message">{formik.errors.email}</div>
                 ) : null}
             </div>
-
             <div className='ContainerInputELabel'>
                 <div className="ContainerInputLabel">
                     <div className="containerLabel">
@@ -77,7 +88,7 @@ export default function FormLogin() {
                     </div>
                     <div className="ContainerInputPlusIcon">
                         <div className="IconForInput">
-                            <CiMail size={"1.6rem"} />
+                            <FaLock size={"1.3rem"} />
                         </div>
                         <input
                             id="password"
@@ -90,23 +101,30 @@ export default function FormLogin() {
                         />
                         <PasswordInput
                             isPasswordVisible={showPassword}
-                            onToggle={togglePasswordVisibility} />
+                            onToggle={togglePasswordVisibility}
+                        />
                     </div>
                 </div>
                 {formik.touched.password && formik.errors.password ? (
-                    <div>{formik.errors.password}</div>
+                    <div className="error-message">{formik.errors.password}</div>
                 ) : null}
             </div>
+
             <div className="FooterForm">
                 <div className='FooterFormEsquerda'>
                     <input id='inputLembrar' type="checkbox" />
                     <label htmlFor="inputLembrar">Lembrar Senha</label>
                 </div>
                 <div className='FooterFormDireita'>
-                    <a>Esqueceu a senha ?</a>
+                    <a>Esqueceu a senha?</a>
                 </div>
             </div>
-            <button type="submit">Entrar</button>
+
+            <button type="submit" disabled={loading}>
+                {loading ? 'Entrando...' : 'Entrar'}
+            </button>
+
+            {error && <div className="error-message general-error">Erro: Email ou senha inválidos.</div>}
         </form>
-    )
+    );
 }
