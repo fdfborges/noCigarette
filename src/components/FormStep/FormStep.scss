@@ -27,11 +27,18 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        margin-top: 3rem;
 
         .ContainerProgressbar {
+            display: flex;
+            flex-direction: column;
             width: 100%;
             height: 100%;
+            margin-top: 3rem;
+            gap: 0.3rem;
+            span{
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
 
             .progressbar {
                 /* Cor da barra de progresso para o Firefox */
