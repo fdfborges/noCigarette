@@ -5,18 +5,22 @@ import Sondagem from "./pages/Sondagem/Sondagem.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Register from "./pages/Register/Register.jsx";
 
-function App() {
+// 1. Importe o AuthProvider que você criou
+import { AuthProvider } from "./hooks/useUserName.jsx";
 
+function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/register" element={<Register/>}/>
-        <Route path="/sondagem" element={<Sondagem/>}/>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/sondagem" element={<Sondagem />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
