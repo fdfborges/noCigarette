@@ -1,0 +1,70 @@
+.containerOnboardingScreen {
+    display: flex;
+    width: 100%;
+    height: 17%;
+    background-color: #DFCD00;
+    border-radius: 20px;
+    padding: 0 1rem;
+    box-sizing: border-box;
+
+    .OnboardingScreenLeft {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        padding: 0 1rem;
+        gap: 0.6rem;
+
+        p {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        button {
+            width: 50%;
+            height: 20%;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            background-color: #2C2C2D;
+        }
+    }
+
+    .OnboardingScreenRight {
+        flex: 1;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+.CircularProgressbar {
+        width: 80%;
+        height: 80%;
+}
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            stroke{
+                font-weight: 900;
+            }
+
+            .progress-value {
+                font-size: 2rem; // Tamanho do número
+                font-weight: 700;
+                color: #2C2C2D; // Cor do número
+                line-height: 1;
+            }
+
+            .progress-label {
+                font-size: 0.8rem; // Tamanho do texto
+                color: #2C2C2D; // Cor do texto
+                margin-top: 5px; // Espaçamento entre as linhas
+            }
+        }
+    }
+}
