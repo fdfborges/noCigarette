@@ -1,0 +1,53 @@
+.containerCardDashboard {
+    background-color: #4A4A58;
+    width: 48%;
+    height: 12rem;
+    border-radius: 35px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+    padding-left: 1rem;
+    box-sizing: border-box;
+
+
+    span {
+        color: white;
+        font-size: 1rem;
+    }
+
+    stroke {
+
+        color: rgb(165, 165, 165);
+    }
+
+    .containerCardHours {
+        p {
+            color: white;
+            font-size: 2.3rem;
+        }
+    }
+
+    .containerFooterCard {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .containerIconCardDashboard {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        right: 0;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        border: 4px solid #2C2C2D;
+        background-color: red;
+
+
+
+    }
+}
