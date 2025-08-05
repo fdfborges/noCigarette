@@ -27,7 +27,6 @@ export default function CardsDashboard({ IconComponent, iconBackgroundColor, ico
                 </div>
                 <div className="containerIconCardDashboard" style={{ backgroundColor: iconBackgroundColor }}>
                     {IconComponent && <IconComponent style={finalStyle} />}
-
                 </div>
             </div>
         </>

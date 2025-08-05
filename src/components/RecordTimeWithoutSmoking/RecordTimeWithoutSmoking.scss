@@ -1,0 +1,70 @@
+.ContainerRecordTimeWithoutSmoking {
+    display: flex;
+    width: 100%;
+    height: 17%;
+    background-color: #DFCD00;
+    border-radius: 20px;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+
+
+    .RecordTimeWithoutSmokingLeft {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        align-items: center;
+        gap: 0.3rem;
+
+        .titleandSubtitleRecord {
+            text-align: center;
+
+            span {}
+
+            p {
+                font-weight: 700;
+            }
+
+        }
+
+        img {
+            width: 80%;
+            
+        }
+
+
+    }
+
+    .linha-vertical {
+        width: 2px;
+        height: 80%;
+        border: 20px;
+        background-color: #2C2C2D;
+        
+    }
+
+    .RecordTimeWithoutSmokingRight {
+        flex: 2;
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.6rem;
+
+        span {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 2.3rem;
+            font-weight: 300;
+            color: white;
+        }
+    }
+
+}

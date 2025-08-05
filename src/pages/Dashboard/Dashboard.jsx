@@ -6,6 +6,8 @@ import CardsDashboard from '../../components/CardsDashboard/CardsDashboard.jsx';
 import { CiClock2, CiDollar } from "react-icons/ci";
 import { PiCigaretteDuotone } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
+import RecordTimeWithoutSmokin from '../../components/RecordTimeWithoutSmoking/RecordTimeWithoutSmoking.jsx';
+
 
 
 
@@ -36,6 +38,7 @@ export default function Dashboard() {
                         iconStyle={{ width: '65%', height: '65%' }}
                     />
                 </div>
+                <RecordTimeWithoutSmokin />
             </div>
         </div>
     );
