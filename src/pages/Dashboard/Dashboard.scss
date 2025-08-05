@@ -17,8 +17,9 @@
 
     .containerCardsDashboardPrincipal {
         display: grid;
-        grid-template-columns: auto;
-        //Parei aqui, tentando configurar os grid
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        
 
     }
 }

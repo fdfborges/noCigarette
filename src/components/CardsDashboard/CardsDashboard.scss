@@ -1,13 +1,13 @@
 .containerCardDashboard {
     background-color: #4A4A58;
-    width: 48%;
+    width: 11rem;
     height: 12rem;
     border-radius: 35px;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.3rem;
+    gap: 1rem;
     padding-left: 1rem;
     box-sizing: border-box;
 
@@ -25,7 +25,7 @@
     .containerCardHours {
         p {
             color: white;
-            font-size: 2.3rem;
+            font-size: 2rem;
         }
     }
 

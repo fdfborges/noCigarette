@@ -5,7 +5,15 @@ import { CiClock2 } from "react-icons/ci";
 
 
 
-export default function CardsDashboard(BackgroundColorIcon) {
+export default function CardsDashboard({ IconComponent, iconBackgroundColor, iconStyle = {} }) {
+    const defaultIconStyle = {
+        width: '80%',
+        height: '80%',
+        color: 'white'
+    };
+
+    const finalStyle = { ...defaultIconStyle, ...iconStyle };
+
     return (
         <>
             <div className="containerCardDashboard">
@@ -17,8 +25,8 @@ export default function CardsDashboard(BackgroundColorIcon) {
                     <span>Tempo sem fumar</span>
                     <stroke>Parabéns!</stroke>
                 </div>
-                <div className="containerIconCardDashboard">
-                    <CiClock2 style={{ width: '80%', height: '80%', color: 'white'}}/>
+                <div className="containerIconCardDashboard" style={{ backgroundColor: iconBackgroundColor }}>
+                    {IconComponent && <IconComponent style={finalStyle} />}
 
                 </div>
             </div>
